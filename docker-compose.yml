@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  mysql:
+    build: .
+    image: yourrepo/mysql:8.0
+    container_name: mysql-prod
+    env_file: .env
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./config/my.cnf:/etc/mysql/conf.d/custom.cnf
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 2G
+    restart: unless-stopped
+
+volumes:
+  mysql_data:
